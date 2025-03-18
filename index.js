@@ -1,15 +1,16 @@
+require('dotenv').config();
 const express = require('express');
-const { resolve } = require('path');
+const connectDB = require('./config/db');  // Import MongoDB connection
+const authRoutes = require('./routes/auth');  // Import auth routes
 
 const app = express();
-const port = 3010;
+const PORT = process.env.PORT || 3000;
 
-app.use(express.static('static'));
+app.use(express.json());  // Middleware to parse JSON requests
 
-app.get('/', (req, res) => {
-  res.sendFile(resolve(__dirname, 'pages/index.html'));
-});
+// Routes
+app.use('/api/auth', authRoutes);
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });
